@@ -1,39 +1,30 @@
+import PetCard from "./PetCard"
+import { getAll } from "../../services/petService"
+import { useEffect, useState } from "react"
+
 const DashboardPage = () => {
-    return (<section id="dashboard-page" className="dashboard">
-    <h1>Dashboard</h1>
+    const [pets, setPets] = useState([]);
+
+    useEffect(() => {
+        getAll()
+            .then(result => {
+                setPets(result);
+        })
+    },[]);
+    console.log(pets)
+
+    return (
+        <section id="dashboard-page" className="dashboard">
+            <h1>Dashboard</h1>
     
-    <ul className="other-pets-list">
-        <li className="otherPet">
-            <h3>Name: Buddy</h3>
-            <p>Type: dog</p>
-            <p className="img"><img src="/images/dog2.png"/></p>
-            <a className="button" href="#">Details</a>
-        </li>
-
-        <li className="otherPet">
-            <h3>Name: Tyson</h3>
-            <p>Type: parrot</p>
-            <p className="img"><img src="/images/parrot.png"/></p>
-            <a className="button" href="#">Details</a>
-        </li>
-
-        <li className="otherPet">
-            <h3>Name: Milo</h3>
-            <p>Type: dog</p>
-            <p className="img"><img src="/images/dog.png"/></p>
-            <a className="button" href="#">Details</a>
-        </li>
-
-        <li className="otherPet">
-            <h3>Name: Tom</h3>
-            <p>Type: cat</p>
-            <p className="img"><img src="/images/cat1.png"/></p>
-            <a className="button" href="#">Details</a>
-        </li>
-    </ul>
+            <ul className="other-pets-list">
+                {pets.map(pet => <PetCard key={pet._id} petObj={pet} />)}
+            </ul>
     
-    <p className="no-pets">No pets in database!</p>
-</section>)
+            <p className="no-pets">No pets in database!</p>
+        </section>
+    )
+  
 }
 
 export default DashboardPage
