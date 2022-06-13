@@ -42,7 +42,7 @@ function App() {
         <main id="site-content">
 
         <Routes>
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/dashboard/*" element={<DashboardPage />} />
 
           <Route path="/login" element={<LoginPage onLogin={onLogin}/>} />
 
