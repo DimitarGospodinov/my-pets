@@ -13,12 +13,12 @@ const MyPetsPage = () => {
             <h3>Name: Tom</h3>
             <p>Type: cat</p>
             <p className="img"><img src="/images/cat1.png"/></p>
-            <a class="button" href="#">Details</a>
+            <a className="button" href="#">Details</a>
         </li>
     </ul>
 
 
-    <p class="no-pets">No pets in database!</p>
+    <p className="no-pets">No pets in database!</p>
 </section>)
 }
 

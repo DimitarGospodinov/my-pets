@@ -12,7 +12,6 @@ const PetList = () => {
                 setPets(result);
         })
     },[]);
-    console.log(pets)
     return (
     <>
         {pets.length > 0

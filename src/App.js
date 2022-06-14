@@ -12,6 +12,7 @@ import Header from "./components/Header/Header";
 import LoginPage from "./components/LoginPage/LoginPage";
 import MyPetsPage from "./components/MyPetsPage/MyPetsPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
+import LogoutPage from "./components/LogoutPage";
 
 
 function App() {
@@ -34,6 +35,13 @@ function App() {
     });
   }
 
+  const onLogout = () => {
+    setUserInfo({
+      isAuthenticated: false,
+      user: null,
+    });
+  }
+
   return (
        <div id="container">
         
@@ -48,13 +56,16 @@ function App() {
 
           <Route path="/register" element={<RegisterPage />} />
              
-          <Route path="/details" element={<DetailsPage />} />
+          <Route path="/details/:petID" element={<DetailsPage />} />
 
           <Route path="/create" element={<CreatePage />} />
 
           <Route path="/edit" element={<EditPage />} />
 
           <Route path="/my-pets" element={<MyPetsPage />} />
+
+          <Route path="/logout" element={<LogoutPage onLogout={onLogout}/>} />
+
         </Routes>
 
         </main>
