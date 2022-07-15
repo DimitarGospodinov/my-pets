@@ -149,6 +149,7 @@ div.actions a {
     padding-bottom: 1rem;
 }
 
+
 .my-pets .my-pets-list,
 .dashboard .other-pets-list {
     display: flex;
@@ -159,6 +160,7 @@ div.actions a {
 .detailsMyPet textarea,
 .my-pets textarea {
     margin-bottom: 2rem;
+    
 }
 
 footer {

@@ -1,26 +1,32 @@
-import * as authService from '../../services/authService'
+import * as authService from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../../contexts/AuthContext';
 
-const LoginPage = ({onLogin}) => {
+
+const LoginPage = () => {
+    const { login } = useContext(AuthContext)
     const navigate = useNavigate();
 
     const OnLoginHandler = (e) => {
         e.preventDefault();
 
         let formData = new FormData(e.currentTarget);
-
         let email = formData.get('email');
+        let password = formData.get('password');
 
-        authService.login(email)
-
-        onLogin(email);
-
-        navigate('/')
-
-    }
+        authService.login(email, password)
+            .then(authData => {
+                login(authData);
+                navigate('/dashboard')
+            })
+            .catch(err => {
+                console.log(err)
+            })        
+        }
 
     return (<section id="login-page" className="login">
-    <form id="login-form" onSubmit={OnLoginHandler} method='POST'>
+    <form id="login-form" onSubmit={ OnLoginHandler } method='POST'>
         <fieldset>
             <legend>Login Form</legend>
             <p className="field">

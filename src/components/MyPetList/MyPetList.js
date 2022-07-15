@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { getAll } from "../../services/PetService"
 import PetCard from "../DashboardPage/PetCard";
+import AuthContext from "../../contexts/AuthContext";
 
-
-const PetList = () => {
+const MyPetList = () => {
     const [pets, setPets] = useState([]);
-
+    const {userInfo} = useContext(AuthContext)
     useEffect(() => {
         getAll()
             .then(result => {
-                setPets(result);
+                setPets(result.filter(pet => pet._ownerId === userInfo._id ));
         })
-    },[]);
+    },[userInfo._id]);
+    
     return (
     <>
         {pets.length > 0
@@ -27,4 +28,4 @@ const PetList = () => {
     )
 }
 
-export default PetList;
+export default MyPetList;

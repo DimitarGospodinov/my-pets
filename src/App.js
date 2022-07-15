@@ -1,8 +1,5 @@
-import { isAuthenticated } from "./services/authService";
 import { Routes,Route } from 'react-router-dom' 
-import { useState, useEffect} from 'react'
-import * as authService from './services/authService'
-
+import useLocalStorage from './hooks/useLocalStorage'
 import CreatePage from "./components/CreatePage/CreatePage";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
 import DetailsPage from "./components/DetailsPage/DetailsPage";
@@ -13,46 +10,38 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import MyPetsPage from "./components/MyPetsPage/MyPetsPage";
 import RegisterPage from "./components/RegisterPage/RegisterPage";
 import LogoutPage from "./components/LogoutPage";
+import AuthContext from "./contexts/AuthContext";
 
+const initialAuthState = {
+  email: '',
+ _id: '', 
+ accessToken: '' 
+};
 
 function App() {
-  const [userInfo, setUserInfo] = useState({isAuthenticated:false, username: ''});
+  const [userInfo, setUserInfo] = useLocalStorage('user',initialAuthState);
 
-  useEffect(() => {
-    let user = authService.getUser();
-
-    setUserInfo({
-      isAuthenticated: Boolean(user),
-      user,
-    })
-    
-  }, []);
-
-  const onLogin = (username) => {
-    setUserInfo({
-      isAuthenticated: true,
-      user: username,
-    });
+  const login = (authData) => {
+      setUserInfo(authData)    
   }
 
   const onLogout = () => {
-    setUserInfo({
-      isAuthenticated: false,
-      user: null,
-    });
+      setUserInfo(initialAuthState)
   }
 
   return (
+       <AuthContext.Provider value={{userInfo, login, onLogout}}>
        <div id="container">
         
-        < Header {...userInfo}/>
+        <Header />
         
         <main id="site-content">
 
         <Routes>
+
           <Route path="/dashboard/*" element={<DashboardPage />} />
 
-          <Route path="/login" element={<LoginPage onLogin={onLogin}/>} />
+          <Route path="/login" element={<LoginPage />} />
 
           <Route path="/register" element={<RegisterPage />} />
              
@@ -64,15 +53,16 @@ function App() {
 
           <Route path="/my-pets" element={<MyPetsPage />} />
 
-          <Route path="/logout" element={<LogoutPage onLogout={onLogout}/>} />
+          <Route path="/logout" element={<LogoutPage />} />
 
         </Routes>
 
         </main>
 
         <Footer />
-
+        
     </div>
+    </AuthContext.Provider>
   );
 }
 
